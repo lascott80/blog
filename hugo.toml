@@ -1,6 +1,8 @@
 baseURL = 'https://example.org/'
 locale = 'en-us'
 title = 'Lawrence Scott'
+enableRobotsTXT = true
+cacheDir = '/Users/lascott/Development/blog/.hugo_cache'
 
 [params]
 description = 'The blog of a Disney fan and computer nerd.'
@@ -8,6 +10,9 @@ author = 'Lawrence Scott'
 tagline = "Hi, I'm Lawrence!"
 homeImage = '/images/profile-pic.jpg'
 intro = 'Notes on Disney, software, and the projects that keep me curious.'
+defaultOgImage = 'images/profile-pic.jpg'
+siteTagline = 'Disney, software, and thoughtful side projects.'
+github = 'https://github.com/lascott80/blog'
 
 [outputs]
 home = ['HTML', 'RSS']
@@ -36,6 +41,12 @@ home = ['HTML', 'RSS']
   name = 'Uses'
   pageRef = '/uses'
   weight = 40
+
+  [[menu.main]]
+  identifier = 'links'
+  name = 'Links'
+  pageRef = '/links'
+  weight = 50
 
 [markup]
   [markup.goldmark]

@@ -1,4 +1,8 @@
 {{ define "main" }}
+  {{ $posts := .Pages.ByDate.Reverse }}
+  {{ $lead := index $posts 0 }}
+  {{ $rest := after 1 $posts }}
+
   <section class="page-hero page-hero--compact">
     <div class="container narrow">
       <p class="page-eyebrow">
@@ -12,12 +16,17 @@
   <section class="post-section">
     <div class="container narrow">
       {{ if eq .Kind "term" }}
-        <div class="topic-grid">
+        <div class="topic-grid topic-grid--rich">
           {{ range .Pages }}
-            <a class="topic-card" href="{{ .RelPermalink }}">
+            {{ $termPosts := .Pages.ByDate.Reverse }}
+            {{ $latest := index $termPosts 0 }}
+            <a class="topic-card reveal-on-scroll" href="{{ .RelPermalink }}">
               <p class="topic-card__eyebrow">Topic</p>
               <h2>{{ .LinkTitle }}</h2>
-              <p>{{ len .Pages }} posts</p>
+              <p class="topic-card__count">{{ len .Pages }} posts</p>
+              {{ with $latest }}
+                <p class="topic-card__latest">Latest: {{ .Title }}</p>
+              {{ end }}
             </a>
           {{ end }}
         </div>
@@ -26,20 +35,28 @@
           <h2>{{ if eq .Kind "taxonomy" }}Posts filed under {{ .Title }}{{ else }}All Posts{{ end }}</h2>
           <p>{{ if eq .Kind "taxonomy" }}Everything tagged {{ .Title }}.{{ else }}A complete archive of posts from the site.{{ end }}</p>
         </div>
-        <div class="post-stack">
-          {{ range .Pages.ByDate.Reverse }}
-            <article class="post-card">
-              <div class="post-card__body">
-                <div class="post-card__topline">
-                  <span class="post-card__reading">{{ .ReadingTime }} min read</span>
-                </div>
-                <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-                <p>{{ .Summary }}</p>
+
+        {{ with $lead }}
+          <article class="archive-lead reveal-on-scroll">
+            <a class="archive-lead__overlay" href="{{ .RelPermalink }}" aria-label="Read {{ .Title }}"></a>
+            <div class="archive-lead__content">
+              <p class="archive-lead__eyebrow">{{ if eq $.Kind "taxonomy" }}From this topic{{ else }}Most recent{{ end }}</p>
+              <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+              <p>{{ .Summary }}</p>
+              <div class="archive-lead__meta">
+                <span>{{ .Date.Format "January 2, 2006" }}</span>
+                <span>{{ .ReadingTime }} min read</span>
               </div>
-              <div class="post-card__meta">{{ .Date.Format "January 2, 2006" }}</div>
-            </article>
+            </div>
+          </article>
+        {{ end }}
+
+        <div class="post-grid">
+          {{ range $rest }}
+            {{ partial "post-card.html" (dict "post" . "class" "post-card post-card--grid" "heading" "h3" "showImage" false) }}
           {{ end }}
         </div>
+
         {{ if eq .Section "blog" }}
           <p class="section-link section-link--muted">
             <a href="{{ "/tags/" | relURL }}">Browse by tag <span aria-hidden="true">→</span></a>

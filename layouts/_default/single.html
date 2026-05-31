@@ -1,9 +1,23 @@
 {{ define "main" }}
+  {{ if ne .Section "blog" }}
+    <section class="page-hero page-hero--compact">
+      <div class="container narrow">
+        <p class="page-eyebrow">Page</p>
+        <h1>{{ .Title }}</h1>
+        {{ with (.Description | default .Summary) }}<div class="page-intro">{{ . }}</div>{{ end }}
+      </div>
+    </section>
+  {{ end }}
+
   <article class="article-shell">
     <div class="container narrow">
-      <p class="page-eyebrow">{{ if eq .Section "blog" }}Blog Post{{ else }}Page{{ end }}</p>
+      {{ if eq .Section "blog" }}
+        <p class="page-eyebrow">Blog Post</p>
+      {{ end }}
       <header class="article-header">
-        <h1>{{ .Title }}</h1>
+        {{ if eq .Section "blog" }}
+          <h1>{{ .Title }}</h1>
+        {{ end }}
         {{ if eq .Section "blog" }}
           <div class="article-meta-bar">
             <p class="article-date">{{ .Date.Format "January 2, 2006" }}</p>
@@ -13,7 +27,12 @@
         {{ end }}
       </header>
       {{ with .Params.featured_image }}
-        <img class="article-feature" src="{{ . | relURL }}" alt="">
+        <figure class="article-feature-figure">
+          {{ partial "optimized-image.html" (dict "src" . "alt" $.Title "class" "article-feature" "loading" "eager" "decoding" "sync" "zoomable" true) }}
+          {{ with $.Params.featured_image_caption }}
+            <figcaption class="article-feature-caption">{{ . }}</figcaption>
+          {{ end }}
+        </figure>
       {{ end }}
       <div class="article-content">
         {{ .Content }}
@@ -40,6 +59,20 @@
             </a>
           {{ end }}
         </nav>
+        {{ $related := first 2 (where (where .Site.RegularPages.ByDate.Reverse "Section" "blog") "Permalink" "ne" .Permalink) }}
+        {{ if $related }}
+          <section class="related-posts">
+            <div class="section-heading">
+              <h2>Keep reading</h2>
+              <p>A few more posts from around the blog.</p>
+            </div>
+            <div class="post-grid">
+              {{ range $related }}
+                {{ partial "post-card.html" (dict "post" . "class" "post-card post-card--grid" "heading" "h3" "showImage" false) }}
+              {{ end }}
+            </div>
+          </section>
+        {{ end }}
       {{ end }}
     </div>
   </article>

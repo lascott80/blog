@@ -1,0 +1,14 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $caption := .Get "caption" -}}
+<figure class="article-inline-figure article-inline-figure--wide reveal-on-scroll">
+  {{ partial "optimized-image.html" (dict
+    "src" $src
+    "alt" $alt
+    "class" "article-inline-image"
+    "sizes" "(max-width: 860px) 100vw, 1000px"
+    "zoomable" true) }}
+  {{ with $caption }}
+    <figcaption class="article-inline-caption">{{ . }}</figcaption>
+  {{ end }}
+</figure>

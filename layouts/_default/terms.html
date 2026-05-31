@@ -11,12 +11,22 @@
 
   <section class="post-section">
     <div class="container narrow">
-      <div class="topic-grid">
+      <div class="section-heading">
+        <h2>Topics at a glance</h2>
+        <p>Jump into the themes that show up most often and pick up from the newest post in each one.</p>
+      </div>
+      <div class="topic-grid topic-grid--rich">
         {{ range .Pages }}
-          <a class="topic-card" href="{{ .RelPermalink }}">
+          {{ $termPosts := .Pages.ByDate.Reverse }}
+          {{ $latest := index $termPosts 0 }}
+          <a class="topic-card reveal-on-scroll" href="{{ .RelPermalink }}">
             <p class="topic-card__eyebrow">Topic</p>
             <h2>{{ .LinkTitle }}</h2>
-            <p>{{ len .Pages }} posts</p>
+            <p class="topic-card__count">{{ len .Pages }} posts</p>
+            {{ with $latest }}
+              <p class="topic-card__latest">{{ .Title }}</p>
+              <p class="topic-card__date">{{ .Date.Format "January 2, 2006" }}</p>
+            {{ end }}
           </a>
         {{ end }}
       </div>

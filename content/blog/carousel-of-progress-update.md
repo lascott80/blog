@@ -5,6 +5,7 @@ description = "A look at the long-overdue Carousel of Progress refresh."
 summary = "It's finally happening. After more than 30 years without a major update, Walt Disney's Carousel of Progress -- the most performed stage show in the history of American theater -- is getting the refresh it deserves."
 tags = ["Disney"]
 featured_image = "/images/carousel-header.webp"
+featured_image_caption = "Concept art for the refreshed Carousel of Progress, courtesy of Disney Parks Blog."
 aliases = ["/posts/carousel-of-progress-update/"]
 +++
 

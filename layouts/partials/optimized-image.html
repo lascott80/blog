@@ -1,0 +1,44 @@
+{{- $src := .src -}}
+{{- $alt := .alt | default "" -}}
+{{- $class := .class | default "" -}}
+{{- $widths := .widths | default (slice 640 960 1280) -}}
+{{- $sizes := .sizes | default "(max-width: 860px) 100vw, 860px" -}}
+{{- $loading := .loading | default "lazy" -}}
+{{- $decoding := .decoding | default "async" -}}
+{{- $zoomable := .zoomable | default false -}}
+{{- $resourcePath := replaceRE "^/" "" $src -}}
+{{- $image := resources.Get $resourcePath -}}
+{{- $href := $src | relURL -}}
+{{- if $image -}}
+  {{- $href = $image.RelPermalink -}}
+{{- end -}}
+{{- if $image -}}
+  {{- $small := $image.Resize "640x webp q85" -}}
+  {{- $medium := $image.Resize "960x webp q85" -}}
+  {{- $large := $image.Resize "1280x webp q85" -}}
+  {{- if $zoomable -}}
+    <a class="image-link" href="{{ $href }}" data-lightbox-image aria-label="Open image: {{ $alt }}">
+  {{- end -}}
+  <img
+    src="{{ $medium.RelPermalink }}"
+    srcset="{{ $small.RelPermalink }} 640w, {{ $medium.RelPermalink }} 960w, {{ $large.RelPermalink }} 1280w"
+    sizes="{{ $sizes }}"
+    width="{{ $medium.Width }}"
+    height="{{ $medium.Height }}"
+    style="height:auto;"
+    alt="{{ $alt }}"
+    class="{{ $class }}"
+    loading="{{ $loading }}"
+    decoding="{{ $decoding }}">
+  {{- if $zoomable -}}
+    </a>
+  {{- end -}}
+{{- else -}}
+  {{- if $zoomable -}}
+    <a class="image-link" href="{{ $href }}" data-lightbox-image aria-label="Open image: {{ $alt }}">
+  {{- end -}}
+  <img src="{{ $src | relURL }}" alt="{{ $alt }}" class="{{ $class }}" style="height:auto;" loading="{{ $loading }}" decoding="{{ $decoding }}">
+  {{- if $zoomable -}}
+    </a>
+  {{- end -}}
+{{- end -}}

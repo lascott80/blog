@@ -1,7 +1,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{{ $desc := .Description | default .Site.Params.description }}
+{{ $title := cond .IsHome .Site.Title (printf "%s | %s" .Title .Site.Title) }}
+{{ $canonical := .Permalink }}
+{{ $ogPath := .Params.featured_image | default .Site.Params.defaultOgImage }}
+{{ $ogResource := resources.Get (replaceRE "^/" "" $ogPath) }}
+{{ $ogImage := cond $ogResource $ogResource.Permalink ($ogPath | absURL) }}
+{{ $keywords := "" }}
+{{ with .Params.tags }}{{ $keywords = delimit . ", " }}{{ end }}
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta name="description" content="{{ $desc }}">
+<meta name="author" content="{{ .Site.Params.author }}">
+{{ with $keywords }}<meta name="keywords" content="{{ . }}">{{ end }}
+<link rel="canonical" href="{{ $canonical }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:type" content="{{ if eq .Section "blog" }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ $canonical }}">
+<meta property="og:image" content="{{ $ogImage }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $desc }}">
+<meta name="twitter:image" content="{{ $ogImage }}">
+{{ if eq .Section "blog" }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ with .Lastmod }}<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+{{ with .Params.tags }}{{ range . }}<meta property="article:tag" content="{{ . }}">{{ end }}{{ end }}
+{{ end }}
 <script>
   (() => {
     const stored = localStorage.getItem("theme");
@@ -16,9 +42,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
-<script src="{{ "js/theme.js" | relURL }}" defer></script>
-<script src="{{ "js/site.js" | relURL }}" defer></script>
+{{ $assetVersion := now.Unix }}
+<link rel="stylesheet" href="{{ "css/site.css" | relURL }}?v={{ $assetVersion }}">
+<script src="{{ "js/theme.js" | relURL }}?v={{ $assetVersion }}" defer></script>
+<script src="{{ "js/site.js" | relURL }}?v={{ $assetVersion }}" defer></script>
 {{ with .OutputFormats.Get "RSS" -}}
 <link rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" href="{{ .RelPermalink }}">
 {{- end }}

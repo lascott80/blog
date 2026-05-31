@@ -1,0 +1,38 @@
+{{- $post := .post -}}
+{{- $class := .class | default "post-card" -}}
+{{- $heading := .heading | default "h2" -}}
+{{- $showSummary := true -}}
+{{- if isset . "showSummary" }}{{ $showSummary = .showSummary }}{{ end -}}
+{{- $showDate := true -}}
+{{- if isset . "showDate" }}{{ $showDate = .showDate }}{{ end -}}
+{{- $showImage := true -}}
+{{- if isset . "showImage" }}{{ $showImage = .showImage }}{{ end -}}
+{{- $imageSrc := $post.Params.featured_image | default site.Params.homeImage -}}
+<article class="{{ $class }} reveal-on-scroll">
+  <a class="post-card__overlay" href="{{ $post.RelPermalink }}" aria-label="Read {{ $post.Title }}"></a>
+  {{- if $showImage }}
+    <div class="post-card__media">
+      {{ partial "optimized-image.html" (dict
+        "src" $imageSrc
+        "alt" $post.Title
+        "class" "post-card__image"
+        "sizes" "(max-width: 840px) 100vw, 320px") }}
+    </div>
+  {{- end }}
+  <div class="post-card__body">
+    <div class="post-card__topline">
+      <span class="post-card__reading">{{ $post.ReadingTime }} min read</span>
+      {{ with $post.Params.tags }}
+        <span class="post-card__topic">{{ index . 0 }}</span>
+      {{ end }}
+    </div>
+    {{ printf "<%s><a href=%q>%s</a></%s>" $heading $post.RelPermalink $post.Title $heading | safeHTML }}
+    {{- if $showSummary }}
+      <p>{{ $post.Summary }}</p>
+    {{- end }}
+    <p class="post-card__cta">Read post <span aria-hidden="true">→</span></p>
+  </div>
+  {{- if $showDate }}
+    <div class="post-card__meta">{{ $post.Date.Format "January 2, 2006" }}</div>
+  {{- end }}
+</article>

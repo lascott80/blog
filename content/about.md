@@ -1,6 +1,7 @@
 +++
 title = "About Me"
 date = 2026-05-29T12:00:00-04:00
+description = "Who I am, what I write about, and why Disney and software both keep showing up here."
 +++
 
 Hey there! I'm Lawrence Scott, and welcome to my blog. I spend my days working with technology and my evenings dreaming about the Magic Kingdom.
