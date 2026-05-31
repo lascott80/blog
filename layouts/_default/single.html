@@ -1,0 +1,46 @@
+{{ define "main" }}
+  <article class="article-shell">
+    <div class="container narrow">
+      <p class="page-eyebrow">{{ if eq .Section "blog" }}Blog Post{{ else }}Page{{ end }}</p>
+      <header class="article-header">
+        <h1>{{ .Title }}</h1>
+        {{ if eq .Section "blog" }}
+          <div class="article-meta-bar">
+            <p class="article-date">{{ .Date.Format "January 2, 2006" }}</p>
+            <p class="article-reading">{{ .ReadingTime }} min read</p>
+            <button class="article-link-button" type="button" data-copy-link>Copy link</button>
+          </div>
+        {{ end }}
+      </header>
+      {{ with .Params.featured_image }}
+        <img class="article-feature" src="{{ . | relURL }}" alt="">
+      {{ end }}
+      <div class="article-content">
+        {{ .Content }}
+      </div>
+      {{ with .Params.tags }}
+        <div class="tag-row">
+          {{ range . }}
+            <a class="tag-pill" href="{{ "/tags/" | relURL }}{{ . | urlize }}/">{{ . }}</a>
+          {{ end }}
+        </div>
+      {{ end }}
+      {{ if eq .Section "blog" }}
+        <nav class="article-nav" aria-label="Post navigation">
+          {{ with .PrevInSection }}
+            <a class="article-nav__item" href="{{ .RelPermalink }}">
+              <span class="article-nav__label">Previous post</span>
+              <strong>{{ .Title }}</strong>
+            </a>
+          {{ end }}
+          {{ with .NextInSection }}
+            <a class="article-nav__item article-nav__item--next" href="{{ .RelPermalink }}">
+              <span class="article-nav__label">Next post</span>
+              <strong>{{ .Title }}</strong>
+            </a>
+          {{ end }}
+        </nav>
+      {{ end }}
+    </div>
+  </article>
+{{ end }}

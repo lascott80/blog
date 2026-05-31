@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ partial "head.html" . }}
+  </head>
+  <body id="top">
+    <div class="reading-progress" data-reading-progress></div>
+    <div class="site-shell">
+      {{ partial "header.html" . }}
+      <main>
+        {{ block "main" . }}{{ end }}
+      </main>
+      {{ partial "footer.html" . }}
+    </div>
+    <button class="back-to-top" type="button" data-back-to-top aria-label="Back to top">↑</button>
+  </body>
+</html>

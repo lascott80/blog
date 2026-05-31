@@ -1,0 +1,29 @@
+<footer class="site-footer">
+  <div class="container narrow footer-grid">
+    <div>
+      <p class="footer-title">{{ .Site.Title }}</p>
+      <p class="footer-copy">A personal blog about Disney, software, and the side projects worth keeping around.</p>
+    </div>
+    <div>
+      <p class="footer-heading">Explore</p>
+      <div class="footer-links">
+        <a href="{{ "/" | relURL }}">Home</a>
+        <a href="{{ "/blog/" | relURL }}">Blog</a>
+        <a href="{{ "/about/" | relURL }}">About</a>
+        <a href="{{ "/uses/" | relURL }}">Uses</a>
+      </div>
+    </div>
+    <div>
+      <p class="footer-heading">Topics</p>
+      <div class="footer-links">
+        <a href="{{ "/tags/disney/" | relURL }}">Disney</a>
+        <a href="{{ "/tags/tech/" | relURL }}">Tech</a>
+        <a href="{{ "/tags/" | relURL }}">All tags</a>
+        {{ with .OutputFormats.Get "RSS" }}<a href="{{ .RelPermalink }}">RSS</a>{{ end }}
+      </div>
+    </div>
+  </div>
+  <div class="container narrow footer-bottom">
+    <p>&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
+  </div>
+</footer>

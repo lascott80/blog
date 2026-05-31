@@ -1,0 +1,19 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="site-brand" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      {{ $current := . }}
+      {{ range .Site.Menus.main }}
+        {{ $isActive := or ($current.IsMenuCurrent "main" .) ($current.HasMenuCurrent "main" .) (and (eq .Identifier "home") $current.IsHome) }}
+        <a class="nav-link{{ if $isActive }} is-active{{ end }}" href="{{ .URL }}">{{ .Name }}</a>
+      {{ end }}
+      {{ with .OutputFormats.Get "RSS" }}
+        <a class="rss-pill" href="{{ .RelPermalink }}">RSS</a>
+      {{ end }}
+      <button class="theme-orb" type="button" data-theme-toggle aria-label="Toggle light mode" aria-pressed="true">
+        <span class="theme-orb__icon theme-orb__icon--sun" aria-hidden="true">☀</span>
+        <span class="theme-orb__icon theme-orb__icon--moon" aria-hidden="true">🌙</span>
+      </button>
+    </nav>
+  </div>
+</header>

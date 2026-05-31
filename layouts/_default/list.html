@@ -1,0 +1,51 @@
+{{ define "main" }}
+  <section class="page-hero page-hero--compact">
+    <div class="container narrow">
+      <p class="page-eyebrow">
+        {{ if eq .Kind "taxonomy" }}Tagged Posts{{ else if eq .Kind "term" }}Browse Topics{{ else }}Collection{{ end }}
+      </p>
+      <h1>{{ .Title }}</h1>
+      {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
+    </div>
+  </section>
+
+  <section class="post-section">
+    <div class="container narrow">
+      {{ if eq .Kind "term" }}
+        <div class="topic-grid">
+          {{ range .Pages }}
+            <a class="topic-card" href="{{ .RelPermalink }}">
+              <p class="topic-card__eyebrow">Topic</p>
+              <h2>{{ .LinkTitle }}</h2>
+              <p>{{ len .Pages }} posts</p>
+            </a>
+          {{ end }}
+        </div>
+      {{ else }}
+        <div class="section-heading">
+          <h2>{{ if eq .Kind "taxonomy" }}Posts filed under {{ .Title }}{{ else }}All Posts{{ end }}</h2>
+          <p>{{ if eq .Kind "taxonomy" }}Everything tagged {{ .Title }}.{{ else }}A complete archive of posts from the site.{{ end }}</p>
+        </div>
+        <div class="post-stack">
+          {{ range .Pages.ByDate.Reverse }}
+            <article class="post-card">
+              <div class="post-card__body">
+                <div class="post-card__topline">
+                  <span class="post-card__reading">{{ .ReadingTime }} min read</span>
+                </div>
+                <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+                <p>{{ .Summary }}</p>
+              </div>
+              <div class="post-card__meta">{{ .Date.Format "January 2, 2006" }}</div>
+            </article>
+          {{ end }}
+        </div>
+        {{ if eq .Section "blog" }}
+          <p class="section-link section-link--muted">
+            <a href="{{ "/tags/" | relURL }}">Browse by tag <span aria-hidden="true">→</span></a>
+          </p>
+        {{ end }}
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

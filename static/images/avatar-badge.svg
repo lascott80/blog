@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
+  <title id="title">Lawrence Scott avatar badge</title>
+  <desc id="desc">A circular illustrated-style badge with the initials LS.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#24355f"/>
+      <stop offset="100%" stop-color="#4fa9da"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5f6f8b"/>
+      <stop offset="100%" stop-color="#2f3f58"/>
+    </linearGradient>
+  </defs>
+  <circle cx="120" cy="120" r="116" fill="url(#bg)"/>
+  <circle cx="120" cy="120" r="106" fill="none" stroke="rgba(255,255,255,0.28)"/>
+  <circle cx="120" cy="90" r="40" fill="#f4b690"/>
+  <path d="M80 195c9-34 30-51 40-51s31 17 40 51" fill="url(#shirt)"/>
+  <path d="M92 144c8 11 18 16 28 16s20-5 28-16l18 18c-11 16-27 24-46 24s-35-8-46-24z" fill="#7f8ca7"/>
+  <path d="M82 93c0-27 16-45 38-45 16 0 29 9 35 24-5-3-10-4-15-4-8 0-15 3-21 8-8 7-17 11-27 12-5 0-8 0-10-1z" fill="#58453f"/>
+  <circle cx="104" cy="92" r="5.5" fill="#19314b"/>
+  <circle cx="136" cy="92" r="5.5" fill="#19314b"/>
+  <path d="M105 118c5 5 10 7 15 7s10-2 15-7" fill="none" stroke="#a24f42" stroke-linecap="round" stroke-width="5"/>
+  <text x="120" y="219" text-anchor="middle" fill="#f3f8ff" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="4">LS</text>
+</svg>

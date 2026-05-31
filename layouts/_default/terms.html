@@ -1,0 +1,25 @@
+{{ define "main" }}
+  <section class="page-hero page-hero--compact">
+    <div class="container narrow">
+      <p class="page-eyebrow">Browse Topics</p>
+      <h1>{{ .Title }}</h1>
+      <div class="page-intro">
+        Explore the writing archive by topic and jump straight to the posts that match.
+      </div>
+    </div>
+  </section>
+
+  <section class="post-section">
+    <div class="container narrow">
+      <div class="topic-grid">
+        {{ range .Pages }}
+          <a class="topic-card" href="{{ .RelPermalink }}">
+            <p class="topic-card__eyebrow">Topic</p>
+            <h2>{{ .LinkTitle }}</h2>
+            <p>{{ len .Pages }} posts</p>
+          </a>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
